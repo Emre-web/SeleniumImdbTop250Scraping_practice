@@ -52,20 +52,36 @@ driver.find_element(By.XPATH, "//span[text()='Top 250 Movies']").click()
 time.sleep(12)
 
 try:
-    # XPath ile öğeyi bekleyerek bul
+    # XPath ile öğeyi bekleyerek film başlıklarını bul
     title_elements = driver.find_elements(By.XPATH, "//h3[@class='ipc-title__text']")
 
-        # Öğenin metnini al ve yazdır
-    for title in range(1, min(21, len(title_elements) + 1)):  # 1. öğeden başlayıp 21. öğeye kadar al
-        print(title_elements[title].text)  
+    if not title_elements:
+        print("Film başlıkları bulunamadı.")
+        driver.quit()
 
-    print("Öğeler başarıyla bulundu ve işlem yapıldı.")
+    # Film başlıklarını ve tarihleri eşleştirme
+    for title_index in range(min(21, len(title_elements))):  # İlk 21 öğeyi işleme al
+        film_title = title_elements[title_index].text
+        print(f"Film Başlığı: {film_title}")  # Film başlığını yazdır
 
+        # Tarih öğelerini almak için
+        # Her film başlığına karşılık gelen tarihleri bul
+        film_tarihleri_elements = driver.find_elements(By.CLASS_NAME, "cli-title-metadata")
+
+        if film_tarihleri_elements:
+            # Her film için tarih öğesini al
+            film_tarihleri = film_tarihleri_elements[title_index].text  # Bu film için tarih
+            print(f"Tarih: {film_tarihleri[:4]}")  # Tarihin ilk dört harfini yazdır
+
+        else:
+            print("Tarih bulunamadı.")
 
     print("Öğeler başarıyla bulundu ve işlem yapıldı.")
 
 except Exception as e:
     print(f"Bir hata oluştu: {e}")
+
+
 
 time.sleep(3)
 input("Press Enter to continue...")
