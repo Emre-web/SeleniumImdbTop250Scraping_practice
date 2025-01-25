@@ -71,17 +71,16 @@ try:
         if film_tarihleri_elements:
             # Her film için tarih öğesini al
             film_tarihleri = film_tarihleri_elements[title_index].text[:4]  # Tarihin ilk dört harfini al (yıl kısmı)
+            
             # Yılı sayıya dönüştürüp karşılaştırma yap
             try:
                 year = int(film_tarihleri)  # Yılı sayıya dönüştür
                 if year >= 2000:
                     print(f"Tarih: {year}")  # Yıl 2000 ve üzeriyse yazdır
+                else:
+                    print(f"Film '{film_title}' 2000'den önce çıkmış. Atlanıyor.")
             except ValueError:
-                print("Geçerli bir yıl bulunamadı.")
-
-            # Her film için tarih öğesini al
-            # film_tarihleri = film_tarihleri_elements[title_index].text  # Bu film için tarih
-            # print(f"Tarih: {film_tarihleri[:4]}")  # Tarihin ilk dört harfini yazdır
+                print(f"Geçerli bir yıl bulunamadı: {film_tarihleri}.")
 
         else:
             print("Tarih bulunamadı.")
@@ -90,8 +89,6 @@ try:
 
 except Exception as e:
     print(f"Bir hata oluştu: {e}")
-
-
 
 time.sleep(3)
 input("Press Enter to continue...")
